@@ -18,6 +18,7 @@
     "typescript": "*"
   },
   "scripts": {
-    "run": "ts-node index.ts"
+    "run": "ts-node index.ts",
+    "runWithoutMagicNumber": "ts-node dataSubDecode.ts"
   }
 }

@@ -21,10 +21,16 @@ export const decryptBuffer = (src: Buffer, length: number, encryptionKey: number
   return dest
 }
 
-export const decryptFileBuffer = async (fileBuffer: Buffer): Promise<Buffer> => {
-  const magicNumber: number = fileBuffer.readUInt32LE(0)
-  const encryptedBufferLength: number = fileBuffer.readUInt32LE(4)
-  const encryptedBuffer = fileBuffer.subarray(8)
+export const decryptFileBuffer = async (fileBuffer: Buffer, isWithMagicNumber= true): Promise<Buffer> => {
+  let magicNumber: number = 0
+  let fileIndex = 0;
+  if (isWithMagicNumber) {
+    magicNumber = fileBuffer.readUInt32LE(fileIndex)
+    fileIndex+=4;
+  }
+  const encryptedBufferLength: number = fileBuffer.readUInt32LE(fileIndex)
+  fileIndex += 4;
+  const encryptedBuffer = fileBuffer.subarray(fileIndex)
 
   const header = encryptedBuffer.readInt8(0)
   const flags = encryptedBuffer.readInt8(1)
